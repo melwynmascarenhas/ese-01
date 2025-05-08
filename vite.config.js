@@ -3,6 +3,9 @@ import eslintPlugin from 'vite-plugin-eslint'
 
 // vite.config.js
 export default defineConfig({
+  optimizeDeps: {
+    include: ['gsap', 'lenis'],
+  },
   plugins: [eslintPlugin({ cache: false })],
   server: {
     host: 'localhost',
@@ -16,6 +19,7 @@ export default defineConfig({
     minify: true,
     manifest: true,
     rollupOptions: {
+      external: ['gsap', 'lenis'],
       input: './src/main.js',
       output: {
         format: 'umd',
