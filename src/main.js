@@ -30,7 +30,6 @@ const initMarquee = (marqueeInner) => {
   })
 }
 
-window.alert('dwsfw')
 // Debugged progress bars function
 const updateProgressBars = (progress) => {
   const bars = document.querySelectorAll('.progress-bar')
@@ -286,12 +285,11 @@ let wrapperTween = gsap.to(wrapper, {
 /////////
 //FLIP MENU
 gsap.registerPlugin(Flip)
-let filpContainer = document.querySelector('.blob_wrap')
-let flipItemEl = document.querySelector('.blob')
-let menuBaseEl = document.querySelector('.nav_menu-base')
+let flipDuration = 0.3
 let filpDestination = document.querySelector('.props_card')
 
-let flipDuration = 0.3
+let filpContainer = document.querySelector('.blob_wrap')
+let flipItemEl = document.querySelector('.blob')
 
 function flip(forwards) {
   let state = Flip.getState(flipItemEl)
@@ -305,18 +303,19 @@ function flip(forwards) {
 
 let tl = gsap.timeline({ paused: true })
 
-//from is used because we want to move the base first
-tl.from(menuBaseEl, {
-  opacity: 0,
-  duration: flipDuration,
-  ease: 'none',
-  //conditional...only runs when the timeline starts
-  onStart: function () {
-    flip(true)
-  },
-})
-
 const menuLinks = gsap.utils.toArray('.nav_menu-link')
+
+tl.from(
+  {},
+  {
+    delay: 0.3,
+    duration: flipDuration,
+    onStart: function () {
+      flip(true)
+    },
+  }
+)
+
 tl.from(menuLinks, {
   opacity: 0,
   yPercent: 50,
@@ -331,41 +330,22 @@ tl.from(menuLinks, {
 
 function openMenu(open) {
   //check if the animation is playing to stop intteruption
-  if (!tl.isActive()) {
-    if (open) {
-      tl.play()
-      filpContainer.classList.add('nav-open')
-    } else {
-      //play close animation because because open menu was set to false
-      tl.reverse()
-      filpContainer.classList.remove('nav-open')
-    }
+  if (open) {
+    tl.play()
+  } else {
+    //play close animation because because open menu was set to false
+    tl.reverse()
   }
 }
 
 //callback to perform menu open or close
-filpContainer.addEventListener('mouseenter', function () {
+filpDestination.addEventListener('mouseenter', function () {
   openMenu(true)
-  //checking if the menu is open or closed
-  // if (filpContainer.classList.contains('nav-open')) {
-  //   //then set openmenu to false
-  //   openMenu(false)
-  // } else {
-  //   openMenu(true)
-  // }
 })
 
-filpContainer.addEventListener('mouseleave', function () {
+filpDestination.addEventListener('mouseleave', function () {
   openMenu(false)
 })
-
-menuBaseEl.addEventListener('mouseenter', function () {
-  openMenu(false)
-})
-menuBaseEl.addEventListener('click', function () {
-  openMenu(false)
-})
-/////////
 
 // Initialize everything
 const init = () => {
