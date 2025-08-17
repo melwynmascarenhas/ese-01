@@ -30,6 +30,7 @@ const initMarquee = (marqueeInner) => {
   })
 }
 
+window.alert('dwsfw')
 // Debugged progress bars function
 const updateProgressBars = (progress) => {
   const bars = document.querySelectorAll('.progress-bar')
